@@ -8,6 +8,7 @@ class ddt_tile_html(ddt_tile):
         INPUT:
         OUTPUT:
         '''
+        #defaults:
         htmlid='filtermenuform1';
         htmltype='form_01';
         formsubmitbuttonidtext={'id':'submit1','text':'submit'};
@@ -32,6 +33,7 @@ class ddt_tile_html(ddt_tile):
         INPUT:
         OUTPUT:
         '''
+        #defaults
         htmlid='datalist1';
         htmltype='datalist_01';
         datalist=[
@@ -40,6 +42,7 @@ class ddt_tile_html(ddt_tile):
             {'value':'probe','text':'by row'},
             {'value':'contrast','text':'by column'},
             {'value':'custom','text':'by value'}];
+
         if datalistparameters:
             datalistparameters_O = datalistparameters;
         else:

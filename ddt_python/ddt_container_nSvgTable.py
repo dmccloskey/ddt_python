@@ -10,14 +10,20 @@ class ddt_container_nSvgTable(ddt_container):
         tileheader,
         svgtype,
         tabletype,
-        single_plot_I=True,
         svgx1axislabel='',
         svgy1axislabel='',
+        single_plot_I=True,
+        svgkeymap = [],
+        svgtile2datamap=[0],
+        svgfilters=None,
+        tablefilters=None,
+        tableheaders=None
         ):
         '''Make a filter menu + n SVGs + Table
         INPUT:
         data1 = listDict of all data
-        data2 = dictionary of data split into different SVGs (optional)
+        data2 = listDict of all data (single plot with a different data from data 1 or a single plot with data 1/2)
+                dictColumn of all data (dictionary of data split into different SVGs, required for multiple plots);
         parameters for filtermenu and table
             data1_keys
             data1_nestkeys
@@ -26,9 +32,15 @@ class ddt_container_nSvgTable(ddt_container):
             data2_keys
             data2_nestkeys
             data2_keymap
+        tileheader = title for each of the tiles
+        svgtype = type of svg (TODO: add optional input for specifying specific svgs for multiple plots)
+        tabletype = type of table
         single_plot_I = plot all data on a single svg or partition into seperate SVGs
                         True, only data1 will be used
                         False, data2 must specified
+        OPTIONAL INPUT for single plot:        
+        svgkeymap = default, [data2_keymap],
+        svgtile2datamap= default, [0],
         '''
         
         #make the form
@@ -135,11 +147,14 @@ class ddt_container_nSvgTable(ddt_container):
                 'rowclass':"row",
                 'colclass':"col-sm-6"
                 });
+            # make the svg parameters
+            if not svgkeymap:
+                svgkeymap = [data2_keymap];
             svg.make_svgparameters(
                 svgparameters={
                 "svgtype":svgtype,
-                "svgkeymap":[data2_keymap],
-                'svgid':'svg'+str(cnt),
+                "svgkeymap":svgkeymap,
+                'svgid':svgid,
                 "svgmargin":{ 'top': 50, 'right': 150, 'bottom': 50, 'left': 50 },
                 "svgwidth":350,
                 "svgheight":250,
@@ -148,7 +163,7 @@ class ddt_container_nSvgTable(ddt_container):
                 }
                     );
             self.add_parameters(svg.get_parameters());
-            self.update_tile2datamap(svgtileid,[1]);
+            self.update_tile2datamap(svgtileid,svgtile2datamap);
 
             #add data 2
             if data2:
@@ -177,11 +192,11 @@ class ddt_container_nSvgTable(ddt_container):
             tableparameters = {
             "tabletype":tabletype,
             'tableid':'table1',
-            "tablefilters":None,
+            "tablefilters":tablefilters,
             "tableclass":"table  table-condensed table-hover",
     		'tableformtileid':'tile1',
             "tablekeymap":[data2_keymap],
-            "tableheaders":None,}
+            "tableheaders":tableheaders,}
             );
         self.add_parameters(crosstable.get_parameters());
         self.update_tile2datamap("tabletile1",[0]);
