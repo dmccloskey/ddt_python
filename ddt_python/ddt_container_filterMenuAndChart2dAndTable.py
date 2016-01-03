@@ -2,8 +2,8 @@ from .ddt_container import ddt_container
 from .ddt_tile import ddt_tile
 from .ddt_tile_html import ddt_tile_html
 
-class ddt_container_filterMenuNSvgTable(ddt_container):
-    def make_filterMenuNSvgTable(self,
+class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
+    def make_filterMenuAndChart2dAndTable(self,
         data_filtermenu,
         data_filtermenu_keys,data_filtermenu_nestkeys,data_filtermenu_keymap,
         data_svg_keys,data_svg_nestkeys,data_svg_keymap,
@@ -15,7 +15,6 @@ class ddt_container_filterMenuNSvgTable(ddt_container):
         tabletype,
         svgx1axislabel='',
         svgy1axislabel='',
-        single_plot_I=True,
         tablekeymap = [],
         svgkeymap = [],
         formtile2datamap=[0],
@@ -43,9 +42,6 @@ class ddt_container_filterMenuNSvgTable(ddt_container):
         tileheader = title for each of the tiles
         svgtype = type of svg (TODO: add optional input for specifying specific svgs for multiple plots)
         tabletype = type of table
-        single_plot_I = plot all data on a single svg or partition into seperate SVGs
-                        True, only data1 will be used
-                        False, data2 must specified
         OPTIONAL INPUT for single plot:        
         svgkeymap = default, [data2_keymap],
         svgtile2datamap= default, [0],
@@ -103,9 +99,9 @@ class ddt_container_filterMenuNSvgTable(ddt_container):
         datacnt += 1;
 
         #make the svg objects
-        if not single_plot_I and type(data_svg) is dict:
+        if type(data_svg) is dict:
             rowcnt = self.make_nSvgDictList();
-        elif not single_plot_I and type(svgtile2datamaps) is list:
+        elif type(svgtile2datamap[0]) is list:
             rowcnt = self.make_nSvgListDict();
         else:
             rowcnt = self.make_svgListDict();
