@@ -10,7 +10,6 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
         data_table_keys,data_table_nestkeys,data_table_keymap,
         data_svg,
         data_table,
-        tileheader,
         svgtype,
         tabletype,
         svgx1axislabel='',
@@ -100,11 +99,39 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
 
         #make the svg objects
         if type(data_svg) is dict:
-            rowcnt = self.make_nSvgDictList();
+            rowcnt = self.make_nChart2dDictList(
+                data_svg,
+                data_svg_keys,
+                data_svg_nestkeys,
+                data_svg_keymap,
+                svgtype,
+                svgtile2datamap,
+                svgfilters,
+                svgtileheader);
         elif type(svgtile2datamap[0]) is list:
-            rowcnt = self.make_nSvgListDict();
+            rowcnt = self.make_nChart2dListDict(
+                add_svg_data,
+                data_svg,
+                data_svg_keys,
+                data_svg_nestkeys,
+                data_svg_keymap,
+                svgtype,
+                svgkeymap,
+                svgtile2datamap,
+                svgfilters,
+                svgtileheader);
         else:
-            rowcnt = self.make_svgListDict();
+            rowcnt = self.make_chart2dListDict(
+                add_svg_data,
+                data_svg,
+                data_svg_keys,
+                data_svg_nestkeys,
+                data_svg_keymap,
+                svgtype,
+                svgkeymap,
+                svgtile2datamap,
+                svgfilters,
+                svgtileheader);
             
         # make the table object
         crosstable = ddt_tile();
@@ -141,13 +168,12 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 );
         datacnt += 1;
 
-    def make_nSvgDictList(self,
+    def make_nChart2dDictList(self,
             data_svg,
             data_svg_keys,
             data_svg_nestkeys,
             data_svg_keymap,
             svgtype,
-            tabletype,
             svgtile2datamap,
             svgfilters,
             svgtileheader):
@@ -204,14 +230,14 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             cnt+=1;
 
         return rowcnt;
-    def make_nSvgListDict(self,
+    def make_nChart2dListDict(self,
             add_svg_data,
             data_svg,
             data_svg_keys,
             data_svg_nestkeys,
             data_svg_keymap,
             svgtype,
-            tabletype,
+            svgkeymap,
             svgtile2datamap,
             svgfilters,
             svgtileheader):
@@ -249,7 +275,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             svg.make_svgparameters(
                 svgparameters={
                 "svgtype":svgtype[i],
-                "svgkeymap":data_svg_keymap[i],
+                "svgkeymap":svgkeymap[i],
                 'svgid':'svg'+str(cnt),
                 "svgmargin":{ 'top': 50, 'right': 150, 'bottom': 50, 'left': 50 },
                 "svgwidth":500,
@@ -270,14 +296,14 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 data_svg_nestkeys
                 );
 
-    def make_svgListDict(self,
+    def make_chart2dListDict(self,
             add_svg_data,
             data_svg,
             data_svg_keys,
             data_svg_nestkeys,
             data_svg_keymap,
             svgtype,
-            tabletype,
+            svgkeymap,
             svgtile2datamap,
             svgfilters,
             svgtileheader):
@@ -331,14 +357,16 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
     def parse_data(self,data_filtermenu,data_svg,data_table):
         '''parse out the data'''
         
+        add_svg_data = True;
+        add_table_data = True;
         #parse out the data
-        if not data_filtermenu is None or not data_filtermenu:
+        if data_filtermenu is None or not data_filtermenu:
             print('no filtermenu data provided.');
             exit(-1);
-        if not data_svg is None or not data_svg:
+        if data_svg is None or not data_svg:
             data_svg = data_filtermenu;
             add_svg_data = False;
-        if not data_table is None or not data_table:
+        if data_table is None or not data_table:
             data_table = data_filtermenu;
             add_table_data = False;
         return data_filtermenu,data_svg,data_table,add_svg_data,add_table_data;
@@ -350,14 +378,14 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
         ):
         '''parse out the data keys'''
        
-        if not data_filtermenu_keys is None or not data_filtermenu_keys:
+        if data_filtermenu_keys is None or not data_filtermenu_keys:
             print('no filtermenu keys provided.');
             exit(-1);
-        if not data_svg_keys is None or not data_svg_keys:
+        if data_svg_keys is None or not data_svg_keys:
             data_svg_keys = data_filtermenu_keys;
             data_svg_nestkeys = data_filtermenu_nestkeys;
             data_svg_keymap = data_filtermenu_keymap;
-        if not data_table_keys is None or not data_table_keys:
+        if data_table_keys is None or not data_table_keys:
             data_table_keys = data_filtermenu_keys;
             data_table_nestkeys = data_filtermenu_nestkeys;
             data_table_keymap = data_filtermenu_keymap;
