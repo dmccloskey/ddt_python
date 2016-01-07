@@ -5,7 +5,10 @@ from .ddt_tile_html import ddt_tile_html
 class ddt_container_table(ddt_container):
 
     def make_container_table(self,
-            data_1,data1_keys,data1_nestkeys,data1_keymap,
+            data_1,
+            data1_keys,
+            data1_nestkeys,
+            data1_keymap,
             tabletype='responsivetable_01',
             tabletileheader='Table',
             tablefilters=None,
