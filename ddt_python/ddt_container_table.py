@@ -4,13 +4,15 @@ from .ddt_tile_html import ddt_tile_html
 
 class ddt_container_table(ddt_container):
 
-    def make_container_queryForm(self,
-            data_1=[{'query_select_raw':'','ddt_container_template':'sqlquery_01'}],
-            data1_keys=['query_select_raw','ddt_container_template'],
-            data1_nestkeys=['query_select_raw'],
+    def make_container_queryRawForm(self,
+            data_1=[{'Raw_SQL':''}],
+            data1_keys=['Raw_SQL'],
+            data1_nestkeys=['Raw_SQL'],
             data1_keymap=None,
             querytileheader='SQL Query',
-            datacnt=0        
+            rowcnt=1,colcnt=1,
+            datacnt=0,
+            htmlalert=None,    
             ):
         '''make a query form
         ATTRIBUTES:
@@ -22,20 +24,24 @@ class ddt_container_table(ddt_container):
         #make the data
         self.add_data(data_1,data1_keys,data1_nestkeys);
 
+        #make the row and col ids
+        rowid = 'row' + str(rowcnt);
+        colid = 'col' + str(colcnt);
+
         #make form
         form = ddt_tile_html();
         form.make_tileparameters(
             {'tileheader':querytileheader,
             'tiletype':'html',
-            'tileid':"html01",
-            'rowid':"row1",
-            'colid':"col1",
+            'tileid':"htmlqueryraw01",
+            'rowid':rowid,
+            'colid':colid,
             'tileclass':"panel panel-default",
             'rowclass':"row",
             'colclass':"col-sm-12"});
-        form.make_parameters_formquery_01();
+        form.make_parameters_formQueryRaw_01(alert=htmlalert);
         self.add_parameters(form.get_parameters());
-        self.update_tile2datamap("html01",[datacnt]);
+        self.update_tile2datamap("htmlqueryraw01",[datacnt]);
 
     def make_container_table(self,
             data_1,
@@ -46,6 +52,7 @@ class ddt_container_table(ddt_container):
             tabletileheader='Table',
             tablefilters=None,
             tableheaders=None,
+            rowcnt=1,colcnt=1,
             datacnt = 0
             ):
         '''make the table container object
@@ -62,20 +69,29 @@ class ddt_container_table(ddt_container):
         #make the data
         self.add_data(data_1,data1_keys,data1_nestkeys);
 
+        #make the row and col ids
+        rowid = 'row' + str(rowcnt);
+        colid = 'col' + str(colcnt);
+
         #make form
         form = ddt_tile_html();
         form.make_tileparameters(
             {'tileheader':'Filter menu',
             'tiletype':'html',
             'tileid':"filtermenu1",
-            'rowid':"row1",
-            'colid':"col1",
+            'rowid':rowid,
+            'colid':colid,
             'tileclass':"panel panel-default",
             'rowclass':"row",
             'colclass':"col-sm-12"});
         form.make_parameters_form_01();
         self.add_parameters(form.get_parameters());
         self.update_tile2datamap("filtermenu1",[datacnt]);
+
+        #make the row and col ids
+        rowcnt += 1;
+        rowid = 'row' + str(rowcnt);
+        colid = 'col' + str(colcnt);
 
         #make table
         crosstable = ddt_tile();
@@ -84,8 +100,8 @@ class ddt_container_table(ddt_container):
             'tileheader':tabletileheader,
             'tiletype':'table',
             'tileid':"tile1",
-            'rowid':"row2",
-            'colid':"col1",
+            'rowid':rowid,
+            'colid':colid,
             'tileclass':"panel panel-default",
             'rowclass':"row",
             'colclass':"col-sm-12"}

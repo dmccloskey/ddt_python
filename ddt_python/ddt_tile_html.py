@@ -1,7 +1,7 @@
 ﻿from .ddt_tile import ddt_tile
 
 class ddt_tile_html(ddt_tile):
-    def make_parameters_formquery_01(self,
+    def make_parameters_formQuery_01(self,
             formparameters={},
             ):
         '''Make htmlparameters
@@ -9,10 +9,10 @@ class ddt_tile_html(ddt_tile):
         OUTPUT:
         '''
         #defaults:
-        htmlid='filtermenuform1';
-        htmltype='formquery_01';
-        formpostbuttonidtext={'id':'post1','text':'execute'};
-        formurl='SQLQuery';
+        htmlid='htmlqueryform02';
+        htmltype='formquery_02';
+        formpostbuttonidtext={'id':'post2','text':'execute'};
+        formurl='pipeline';
 
         if formparameters:
             formparameters_O = formparameters;
@@ -22,6 +22,32 @@ class ddt_tile_html(ddt_tile):
                 'htmltype':htmltype,
                 "formpostbuttonidtext":formpostbuttonidtext,
                 'formurl':formurl,
+                };
+        self.make_htmlparameters(htmlparameters=formparameters_O);
+    def make_parameters_formQueryRaw_01(self,
+            formparameters={},
+            alert=None
+            ):
+        '''Make htmlparameters
+        INPUT:
+        OUTPUT:
+        '''
+        #defaults:
+        htmlid='htmlqueryform01';
+        htmltype='formquery_01';
+        formpostbuttonidtext={'id':'post1','text':'execute'};
+        formurl='SQLQuery';
+        htmlalert=alert
+
+        if formparameters:
+            formparameters_O = formparameters;
+        else: 
+            formparameters_O = {
+                'htmlid':htmlid,
+                'htmltype':htmltype,
+                "formpostbuttonidtext":formpostbuttonidtext,
+                'formurl':formurl,
+                'htmlalert':htmlalert,
                 };
         self.make_htmlparameters(htmlparameters=formparameters_O);
     def make_parameters_form_01(self,
@@ -75,3 +101,30 @@ class ddt_tile_html(ddt_tile):
                 'datalist':datalist
                 };
         self.make_htmlparameters(htmlparameters=datalistparameters_O);
+    def make_parameters_href_02(self,
+            formparameters={},
+            alert=None,
+            url=None,
+            ):
+        '''Make htmlparameters
+        INPUT:
+        OUTPUT:
+        '''
+        #defaults:
+        htmlid='formhref02';
+        htmltype='href_02';
+        formsubmitbuttonidtext={'id':'submithref1','text':'submit'};
+        htmlalert=alert;
+        hrefurl=url;
+
+        if formparameters:
+            formparameters_O = formparameters;
+        else: 
+            formparameters_O = {
+                'htmlid':htmlid,
+                'htmltype':htmltype,
+                "formsubmitbuttonidtext":formsubmitbuttonidtext,
+                'hrefurl':hrefurl,
+                'htmlalert':htmlalert,
+                };
+        self.make_htmlparameters(htmlparameters=formparameters_O);
