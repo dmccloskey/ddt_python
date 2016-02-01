@@ -4,45 +4,6 @@ from .ddt_tile_html import ddt_tile_html
 
 class ddt_container_table(ddt_container):
 
-    def make_container_queryRawForm(self,
-            data_1=[{'Raw_SQL':''}],
-            data1_keys=['Raw_SQL'],
-            data1_nestkeys=['Raw_SQL'],
-            data1_keymap=None,
-            querytileheader='SQL Query',
-            rowcnt=1,colcnt=1,
-            datacnt=0,
-            htmlalert=None,    
-            ):
-        '''make a query form
-        ATTRIBUTES:
-        text input form and execute button
-        INPUT:
-        querytileheader = string, e.g., "sql query"
-        '''
-
-        #make the data
-        self.add_data(data_1,data1_keys,data1_nestkeys);
-
-        #make the row and col ids
-        rowid = 'row' + str(rowcnt);
-        colid = 'col' + str(colcnt);
-
-        #make form
-        form = ddt_tile_html();
-        form.make_tileparameters(
-            {'tileheader':querytileheader,
-            'tiletype':'html',
-            'tileid':"htmlqueryraw01",
-            'rowid':rowid,
-            'colid':colid,
-            'tileclass':"panel panel-default",
-            'rowclass':"row",
-            'colclass':"col-sm-12"});
-        form.make_parameters_formQueryRaw_01(alert=htmlalert);
-        self.add_parameters(form.get_parameters());
-        self.update_tile2datamap("htmlqueryraw01",[datacnt]);
-
     def make_container_table(self,
             data_1,
             data1_keys,

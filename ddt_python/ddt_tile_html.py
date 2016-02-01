@@ -1,55 +1,6 @@
 ﻿from .ddt_tile import ddt_tile
 
 class ddt_tile_html(ddt_tile):
-    def make_parameters_formQuery_01(self,
-            formparameters={},
-            ):
-        '''Make htmlparameters
-        INPUT:
-        OUTPUT:
-        '''
-        #defaults:
-        htmlid='htmlqueryform02';
-        htmltype='formquery_02';
-        formpostbuttonidtext={'id':'post2','text':'execute'};
-        formurl='pipeline';
-
-        if formparameters:
-            formparameters_O = formparameters;
-        else: 
-            formparameters_O = {
-                'htmlid':htmlid,
-                'htmltype':htmltype,
-                "formpostbuttonidtext":formpostbuttonidtext,
-                'formurl':formurl,
-                };
-        self.make_htmlparameters(htmlparameters=formparameters_O);
-    def make_parameters_formQueryRaw_01(self,
-            formparameters={},
-            alert=None
-            ):
-        '''Make htmlparameters
-        INPUT:
-        OUTPUT:
-        '''
-        #defaults:
-        htmlid='htmlqueryform01';
-        htmltype='formquery_01';
-        formpostbuttonidtext={'id':'post1','text':'execute'};
-        formurl='SQLQuery';
-        htmlalert=alert
-
-        if formparameters:
-            formparameters_O = formparameters;
-        else: 
-            formparameters_O = {
-                'htmlid':htmlid,
-                'htmltype':htmltype,
-                "formpostbuttonidtext":formpostbuttonidtext,
-                'formurl':formurl,
-                'htmlalert':htmlalert,
-                };
-        self.make_htmlparameters(htmlparameters=formparameters_O);
     def make_parameters_form_01(self,
             formparameters={},
             ):

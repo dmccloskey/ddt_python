@@ -233,12 +233,14 @@ class ddt_container_SQL(ddt_container_table):
         htmltype='formquery_01';
         formpostbuttonidtext={'id':'posthtmlqueryinsertform01','text':'execute'};
         formurl='SQLQuery';
+        formpostauthentication=True;
         formparameters = {
                 'htmlid':htmlid,
                 'htmltype':htmltype,
                 "formpostbuttonidtext":formpostbuttonidtext,
                 'formurl':formurl,
                 'htmlalert':htmlalert,
+                'formpostauthentication':formpostauthentication,
                 };
         #add the form to the container
         self.make_container_queryForm(
@@ -290,12 +292,14 @@ class ddt_container_SQL(ddt_container_table):
         htmltype='formquery_01';
         formpostbuttonidtext={'id':'posthtmlqueryupdateform01','text':'execute'};
         formurl='SQLQuery';
+        formpostauthentication=True;
         formparameters = {
                 'htmlid':htmlid,
                 'htmltype':htmltype,
                 "formpostbuttonidtext":formpostbuttonidtext,
                 'formurl':formurl,
                 'htmlalert':htmlalert,
+                'formpostauthentication':formpostauthentication,
                 };
         #add the form to the container
         self.make_container_queryForm(
@@ -332,6 +336,7 @@ class ddt_container_SQL(ddt_container_table):
         tileclass="panel panel-default";
         rowclass="row";
         colclass="col-sm-6";
+        formpostauthentication=True;
         tileparameters={
             'tiletype':'html',
             'tileheader':tileheader,
@@ -352,6 +357,7 @@ class ddt_container_SQL(ddt_container_table):
                 "formpostbuttonidtext":formpostbuttonidtext,
                 'formurl':formurl,
                 'htmlalert':htmlalert,
+                'formpostauthentication':formpostauthentication,
                 };
         #add the form to the container
         self.make_container_queryForm(

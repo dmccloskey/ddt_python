@@ -1,6 +1,9 @@
 #system
 import json
 import re
+# required for convert_datetime2string
+from datetime import datetime
+from time import mktime,strftime
 
 class ddt_container():
     def __init__(self,parameters_I = None,data_I = None,tile2datamap_I = None,filtermenu_I = None):
@@ -80,11 +83,21 @@ class ddt_container():
         if filtermenu_json: alldata_O+= 'var ' + 'filtermenu' + ' = ' + json.dumps(filtermenu_json) + ';' + '\n';
         return alldata_O;
 
-    def add_data(self,data_1,data1_keys,data1_nestkeys):
+    def add_data(self,data_1,data1_keys,data1_nestkeys,
+                 convert_datetime2Str_I=True):
         '''add to container data
         INPUT:
+        OPTIONAL INPUT:
+        convert_datetime2Str_I = boolean (default=True), convert all datetime objects to string (datetime is not json serializable)
         OUTPUT:
         '''
+        datetime_check=datetime(2016, 2, 1, 11, 32, 11, 755613);
+
+        for i,d in enumerate(data_1):
+            for k,v in d.items():
+                if type(v)==type(datetime_check):
+                    data_1[i][k] = self.convert_datetime2string(v);
+
         self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
 
     def add_parameters(self,parameters):
@@ -109,3 +122,11 @@ class ddt_container():
         OUTPUT
         '''
         self.filtermenu.append(filtermenu);
+
+    def convert_datetime2string(self,datetime_I):
+        '''convert datetime to string date time 
+        e.g. time.strftime('%Y/%m/%d %H:%M:%S') = '2014-04-15 15:51:01' '''
+
+        time_str = datetime_I.strftime('%Y-%m-%d %H:%M:%S')
+        
+        return time_str
