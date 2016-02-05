@@ -371,3 +371,60 @@ class ddt_container_SQL(ddt_container_table):
             colcnt=colcnt,
             datacnt=datacnt,
             );
+
+    def make_container_queryInsertUpdateDeleteForm(self,
+            data_1=[{'type':'ADD'},
+                    {'type':'UPDATE'},
+                    {'type':'DELETE'}],
+            htmlalert=None, 
+            rowcnt=1,
+            colcnt=1,
+            datacnt=0,
+            ):
+        '''default tile and form parameters for a sql delete form'''
+        #data
+        data1_keys=['type'];
+        data1_nestkeys=['type'];
+        data1_keymap=None;
+
+        #tileparameters
+        tileheader='SQL';
+        tileid="htmlqueryinsertupdatedelete01";
+        tileclass="panel panel-default";
+        rowclass="row";
+        colclass="col-sm-6";
+        formpostauthentication=True;
+        tileparameters={
+            'tiletype':'html',
+            'tileheader':tileheader,
+            'tileid':tileid,
+            'tileclass':tileclass,
+            'rowclass':rowclass,
+            'colclass':colclass,
+            };
+
+        #formparameters
+        htmlid='htmlqueryinsertupdatedeleteform01';
+        htmltype='formquery_02';
+        formpostbuttonidtext={'id':'posthtmlqueryinsertupdatedeleteform01','text':'execute'};
+        formurl='pipeline';
+        formparameters = {
+                'htmlid':htmlid,
+                'htmltype':htmltype,
+                "formpostbuttonidtext":formpostbuttonidtext,
+                'formurl':formurl,
+                'htmlalert':htmlalert,
+                'formpostauthentication':formpostauthentication,
+                };
+        #add the form to the container
+        self.make_container_queryForm(
+            data_1,
+            data1_keys,
+            data1_nestkeys,
+            data1_keymap,
+            tileparameters_I=tileparameters,
+            formparameters_I=formparameters, 
+            rowcnt=rowcnt,
+            colcnt=colcnt,
+            datacnt=datacnt,
+            );
