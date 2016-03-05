@@ -2,7 +2,7 @@
 import json
 import re
 # required for convert_datetime2string
-from datetime import datetime
+from datetime import datetime, date
 from time import mktime,strftime
 
 class ddt_container():
@@ -92,11 +92,14 @@ class ddt_container():
         OUTPUT:
         '''
         datetime_check=datetime(2016, 2, 1, 11, 32, 11, 755613);
+        date_check=date(2016, 2, 1);
 
         for i,d in enumerate(data_1):
             for k,v in d.items():
                 if type(v)==type(datetime_check):
                     data_1[i][k] = self.convert_datetime2string(v);
+                elif type(v)==type(date_check):
+                    data_1[i][k] = self.convert_date2string(v);
 
         self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
 
@@ -128,5 +131,12 @@ class ddt_container():
         e.g. time.strftime('%Y/%m/%d %H:%M:%S') = '2014-04-15 15:51:01' '''
 
         time_str = datetime_I.strftime('%Y-%m-%d %H:%M:%S')
+        
+        return time_str
+    def convert_date2string(self,date_I):
+        '''convert date to string date  
+        e.g. time.strftime('%Y/%m/%d') = '2014-04-15' '''
+
+        time_str = date_I.strftime('%Y-%m-%d')
         
         return time_str
