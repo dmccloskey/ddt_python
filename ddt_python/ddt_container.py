@@ -94,7 +94,7 @@ class ddt_container():
         datetime_check=datetime(2016, 2, 1, 11, 32, 11, 755613);
         date_check=date(2016, 2, 1);
 
-        for i,d in enumerate(data_1):
+        for i,d in enumerate(data_1): #slow...
             for k,v in d.items():
                 if type(v)==type(datetime_check):
                     data_1[i][k] = self.convert_datetime2string(v);
