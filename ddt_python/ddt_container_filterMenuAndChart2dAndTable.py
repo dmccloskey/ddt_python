@@ -21,6 +21,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
         svgtile2datamap=[0],
         svgfilters=None,
         svgtileheader=None,
+        svgparameters_I={},
         tablefilters=None,
         tableheaders=None
         ):
@@ -44,6 +45,9 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
         OPTIONAL INPUT for single plot:        
         svgkeymap = default, [data2_keymap],
         svgtile2datamap= default, [0],
+
+        svgparameters_I = additional parameters to add or override default parameters
+
         '''
 
         data_filtermenu,data_svg,data_table,add_svg_data,add_table_data = self.parse_data(data_filtermenu,data_svg,data_table);
@@ -131,7 +135,9 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 svgkeymap,
                 svgtile2datamap,
                 svgfilters,
-                svgtileheader);
+                svgtileheader,
+                svgparameters_I=svgparameters_I
+                );
             
         # make the table object
         crosstable = ddt_tile();
@@ -306,7 +312,9 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             svgkeymap,
             svgtile2datamap,
             svgfilters,
-            svgtileheader):
+            svgtileheader,
+            svgparameters_I={},
+            ):
         '''make a single SVG object from a listDict
         '''
         
@@ -329,8 +337,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             'colclass':"col-sm-6"
             });
         # make the svg parameters
-        svg.make_svgparameters(
-            svgparameters={
+        svgparameters={
             "svgtype":svgtype,
             "svgkeymap":svgkeymap,
             'svgid':svgid,
@@ -339,7 +346,10 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             "svgheight":250,
             "svgx1axislabel":data_svg_keymap['xdata'],
             "svgy1axislabel":data_svg_keymap['ydata']
-            }
+            };
+        svgparameters.update(svgparameters_I);
+        svg.make_svgparameters(
+            svgparameters=svgparameters
                 );
         self.add_parameters(svg.get_parameters());
         self.update_tile2datamap(svgtileid,svgtile2datamap);

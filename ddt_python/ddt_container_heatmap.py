@@ -51,13 +51,24 @@ class ddt_container_heatmap(ddt_container):
     def make_container_heatmap(self,data_1,
             svgcolorcategory='blue2gold64RBG',
             svgcolordomain='min,0,max',
+            data1_keymap=None,
+            data1_nestkeys=None,
+            data1_keys=None,
+            svgparameters_I={}
             ):
         '''make the heatmap container object
         INPUT:
         OUTPUT:
         '''
         #make the data
-        self.make_data_heatmap(data_1);
+        if data1_keys and data1_nestkeys:
+            self.add_data(
+                data_1,
+                data1_keys,
+                data1_nestkeys
+                );
+        else:
+            self.make_data_heatmap(data_1);
 
         #make form
         form = ddt_tile_html();
@@ -91,7 +102,8 @@ class ddt_container_heatmap(ddt_container):
         self.update_tile2datamap("tile1",[0]);
 
         #make heatmap
-        data1_keymap = self.make_keymap_heatmap();
+        if not data1_keymap:
+            data1_keymap = self.make_keymap_heatmap();
         heatmap = ddt_tile();
         heatmap.make_tileparameters(
             tileparameters = {
@@ -104,8 +116,7 @@ class ddt_container_heatmap(ddt_container):
                 'rowclass':"row",
                 'colclass':"col-sm-12"}
             );
-        heatmap.make_svgparameters(
-            svgparameters = {
+        svgparameters = {
                 "svgtype":'heatmap2d_01',
                 "svgkeymap":[data1_keymap],
                 'svgid':'svg1',
@@ -116,6 +127,9 @@ class ddt_container_heatmap(ddt_container):
                 'svgcolordomain':svgcolordomain,
                 'svgcolordatalabel':'value',
                 'svgdatalisttileid':'tile1'}
+        svgparameters.update(svgparameters_I)
+        heatmap.make_svgparameters(
+            svgparameters = svgparameters
             );
         self.add_parameters(heatmap.get_parameters());
         self.update_tile2datamap("tile2",[0]);
