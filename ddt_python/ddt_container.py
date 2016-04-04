@@ -96,10 +96,16 @@ class ddt_container():
 
         for i,d in enumerate(data_1): #slow...
             for k,v in d.items():
+                #check for datetimes
                 if type(v)==type(datetime_check):
                     data_1[i][k] = self.convert_datetime2string(v);
                 elif type(v)==type(date_check):
                     data_1[i][k] = self.convert_date2string(v);
+                #check for datetimes in lists
+                elif type(v)==type([]) and type(v[0])==type(datetime_check):
+                    data_1[i][k] = [self.convert_datetime2string(vj) for vj in v];
+                elif type(v)==type([]) and type(v[0])==type(date_check):
+                    data_1[i][k] = [self.convert_date2string(vj) for vj in v];
 
         self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
 
