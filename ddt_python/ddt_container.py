@@ -102,10 +102,28 @@ class ddt_container():
                 elif type(v)==type(date_check):
                     data_1[i][k] = self.convert_date2string(v);
                 #check for datetimes in lists
-                elif type(v)==type([]) and type(v[0])==type(datetime_check):
+                elif v and type(v)==type([]) and type(v[0])==type(datetime_check):
                     data_1[i][k] = [self.convert_datetime2string(vj) for vj in v];
-                elif type(v)==type([]) and type(v[0])==type(date_check):
+                elif v and type(v)==type([]) and type(v[0])==type(date_check):
                     data_1[i][k] = [self.convert_date2string(vj) for vj in v];
+                    
+                #convert lists to javascript compatible string
+                #TODO: update in the future...
+                if v and type(v)==type([]):
+                    data_1[i][k] = ";".join([x for x in v if x is not None]);
+                elif type(v)==type([]):
+                    data_1[i][k] = "";
+                    
+                #convert dicts to javascript compatible string
+                #TODO: update in the future...
+                if v and type(v)==type({}):
+                    data_1[i][k] = ";".join([('%s:%s' %(key,val)) for key,val in v.items()]);
+                elif type(v)==type({}):
+                    data_1[i][k] = "";
+
+                #remove ","
+                if v and type(v)==type(""):
+                    data_1[i][k] = v.replace(',',";");
 
         self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
 
