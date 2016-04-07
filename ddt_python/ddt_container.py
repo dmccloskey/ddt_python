@@ -110,19 +110,19 @@ class ddt_container():
                 #convert lists to javascript compatible string
                 #TODO: update in the future...
                 if v and type(v)==type([]):
-                    data_1[i][k] = ";".join([x for x in v if x is not None]);
+                    data_1[i][k] = ";".join([x for x in v if x is not None]).replace(',',";");
                 elif type(v)==type([]):
                     data_1[i][k] = "";
                     
                 #convert dicts to javascript compatible string
                 #TODO: update in the future...
                 if v and type(v)==type({}):
-                    data_1[i][k] = ";".join([('%s:%s' %(key,val)) for key,val in v.items()]);
+                    data_1[i][k] = ";".join([('%s:%s' %(key,val)) for key,val in v.items()]).replace(',',";");
                 elif type(v)==type({}):
                     data_1[i][k] = "";
 
                 #remove ","
-                if v and type(v)==type(""):
+                if k=="comment_" and v and type(v)==type(""):
                     data_1[i][k] = v.replace(',',";");
 
         self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
