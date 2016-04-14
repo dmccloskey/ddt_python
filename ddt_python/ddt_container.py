@@ -7,14 +7,10 @@ from time import mktime,strftime
 
 class ddt_container():
     def __init__(self,parameters_I = None,data_I = None,tile2datamap_I = None,filtermenu_I = None):
-        if parameters_I:self.parameters = parameters_I;
-        else: self.parameters = [];
-        if data_I:self.data = data_I;
-        else: self.data = [];
-        if tile2datamap_I:self.tile2datamap = tile2datamap_I;
-        else: self.tile2datamap = {};
-        if filtermenu_I:self.filtermenu = filtermenu_I;
-        else: self.filtermenu = [];
+        self.set_parameters(parameters_I);
+        self.set_data(data_I);
+        self.set_tile2datamap(tile2datamap_I);
+        self.set_filtermenu(filtermenu_I);
 
     def clear_objects(self):
         '''remove data'''
@@ -32,6 +28,24 @@ class ddt_container():
         else: tile2datamap = {};
         if filtermenu_I:self.filtermenu = filtermenu_I;
         else: filtermenu = [];
+
+    def set_parameters(self,parameters_I = None):
+        '''Set the parameters object'''
+        if parameters_I:self.parameters = parameters_I;
+        else: self.parameters = [];
+    def set_data(self,data_I = None):
+        '''Set the data object'''
+        if data_I:self.data = data_I;
+        else: self.data = [];
+    def set_tile2datamap(self,tile2datamap_I = None):
+        '''Set the tile2datamap object'''
+        if tile2datamap_I:self.tile2datamap = tile2datamap_I;
+        else: self.tile2datamap = {};
+    def set_filtermenu(self,filtermenu_I = None):
+        '''Set the filtermenu object'''
+        if filtermenu_I:self.filtermenu = filtermenu_I;
+        else: self.filtermenu = [];
+
     def get_parameters(self):
         '''Return the parameters object'''
         parameters_O = None;
@@ -84,9 +98,33 @@ class ddt_container():
         return alldata_O;
 
     def add_data(self,data_1,data1_keys,data1_nestkeys,
-                 convert_datetime2Str_I=True):
+                 convert_datetime2Str_I=True,
+                 convert_str2jsstring_I=True):
         '''add to container data
         INPUT:
+        data_1 = listDict
+        data1_keys = []
+        data1_nestkeys = []
+        OPTIONAL INPUT:
+        convert_datetime2Str_I = boolean (default=True), convert all datetime objects to string (datetime is not json serializable)
+        OUTPUT:
+        '''
+        data_1 = self.make_listDict_JSONAndJSCompatible(data_1);
+        self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
+
+    def make_listDict_JSONAndJSCompatible(self,
+            data_1,
+            string_ignore_keys_I = ['Raw_SQL',
+                    'SELECT','FROM','WHERE','GROUP_BY','HAVING','ORDER_BY','LIMIT','OFFSET',
+                    'INSERT_INTO','VALUES',
+                    'UPDATE','SET',
+                    'DELETE_FROM','WHERE',
+                    'username','password',
+                    ]
+            ):
+        '''remove json and javascript incompatible characters and objects
+        INPUT:
+        data_1 = listDict
         OPTIONAL INPUT:
         convert_datetime2Str_I = boolean (default=True), convert all datetime objects to string (datetime is not json serializable)
         OUTPUT:
@@ -122,10 +160,9 @@ class ddt_container():
                     data_1[i][k] = "";
 
                 #remove ","
-                if k=="comment_" and v and type(v)==type(""):
+                if not k in string_ignore_keys_I and v and type(v)==type(""):
                     data_1[i][k] = v.replace(',',";");
-
-        self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
+        return data_1;
 
     def add_parameters(self,parameters):
         '''add to container parameters
