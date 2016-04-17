@@ -148,7 +148,8 @@ class ddt_container():
                 #convert lists to javascript compatible string
                 #TODO: update in the future...
                 if v and type(v)==type([]):
-                    data_1[i][k] = ";".join([x for x in v if x is not None]).replace(',',";");
+                    data_1[i][k] = ";".join([str(x) for x in v if x is not None]).replace(',',";");
+                    #data_1[i][k] = ";".join([x for x in v if x is not None]).replace(',',";");
                 elif type(v)==type([]):
                     data_1[i][k] = "";
                     
