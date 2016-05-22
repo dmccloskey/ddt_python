@@ -10,6 +10,9 @@ class ddt_container_scoresAndLoadings(ddt_container):
             data2_keys,data2_nestkeys,
             data1_keymap_serieslabel,data1_keymap_featureslabel,
             data2_keymap_serieslabel,data2_keymap_featureslabel,
+            data1_keymap_tooltiplabel = None,
+            data2_keymap_tooltiplabel = None,
+
             ):
         '''make the heatmap container object
         INPUT:
@@ -56,7 +59,8 @@ class ddt_container_scoresAndLoadings(ddt_container):
                 'xdata':'score_'+str(PC[0]),
                 'ydata':'score_'+str(PC[1]),
                 'serieslabel':data1_keymap_serieslabel,
-                'featureslabel':data1_keymap_featureslabel};
+                'featureslabel':data1_keymap_featureslabel,
+                'tooltiplabel':data1_keymap_tooltiplabel};
             self.add_data(
                 data_scores_123[str(PC)],
                 data1_keys,
@@ -91,7 +95,7 @@ class ddt_container_scoresAndLoadings(ddt_container):
         for PC_cnt,PC in enumerate(PCs):
             # loadings
             if PC_cnt == 0:
-                #define the filte rmenu
+                #define the filter menu
                 form = ddt_tile();
                 form.make_tileparameters(
                     tileparameters={
@@ -125,7 +129,8 @@ class ddt_container_scoresAndLoadings(ddt_container):
             data2_keymap = {'xdata':'loadings_'+str(PC[0]),
                             'ydata':'loadings_'+str(PC[1]),
                             'serieslabel':data2_keymap_serieslabel,
-                            'featureslabel':data2_keymap_featureslabel};
+                            'featureslabel':data2_keymap_featureslabel,
+                'tooltiplabel':data2_keymap_tooltiplabel};
             self.add_data(
                 data_loadings_123[str(PC)],
                 data2_keys,
@@ -145,7 +150,9 @@ class ddt_container_scoresAndLoadings(ddt_container):
                 'colclass':"col-sm-6"}
                     );
             svg.make_svgparameters(
-                svgparameters={"svgtype":'volcanoplot2d_01',
+                svgparameters={
+                #"svgtype":'verticalbarschart2d_01',
+                "svgtype":'volcanoplot2d_01', 
                 "svgkeymap":[data2_keymap],
                 'svgid':'svg1',
                 "svgmargin":{ 'top': 50, 'right': 50, 'bottom': 50, 'left': 50 },

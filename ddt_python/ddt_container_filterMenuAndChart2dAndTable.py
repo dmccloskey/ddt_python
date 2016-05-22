@@ -111,7 +111,8 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 svgtype,
                 svgtile2datamap,
                 svgfilters,
-                svgtileheader);
+                svgtileheader,
+                svgparameters_I=svgparameters_I);
         elif type(svgtile2datamap[0]) is list:
             rowcnt = self.make_nChart2dListDict(
                 add_svg_data,
@@ -123,7 +124,8 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 svgkeymap,
                 svgtile2datamap,
                 svgfilters,
-                svgtileheader);
+                svgtileheader,
+                svgparameters_I=svgparameters_I);
         else:
             rowcnt = self.make_chart2dListDict(
                 add_svg_data,
@@ -172,7 +174,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 data_table_keys,
                 data_table_nestkeys
                 );
-        datacnt += 1;
+            datacnt += 1;
 
     def make_nChart2dDictList(self,
             data_svg,
@@ -182,7 +184,8 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             svgtype,
             svgtile2datamap,
             svgfilters,
-            svgtileheader):
+            svgtileheader,
+            svgparameters_I={},):
         '''make the SVG objects from a dictList
         USE:
         large data set partitioned into individual data sets
@@ -226,6 +229,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 "svgy1axislabel":data_svg_keymap['ydata']
                 }
                     );
+            svgparameters.update(svgparameters_I);
             self.add_parameters(svg.get_parameters());
             self.update_tile2datamap(svgtileid,[iter]);
             self.add_data(
@@ -246,7 +250,8 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             svgkeymap,
             svgtile2datamap,
             svgfilters,
-            svgtileheader):
+            svgtileheader,
+            svgparameters_I={},):
         '''make the SVG objects from a listDict
         USE:
         multiple views of the same data set
@@ -290,6 +295,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 "svgy1axislabel":data_svg_keymap[i]['ydata']
                 }
                     );
+            svgparameters.update(svgparameters_I);
             self.add_parameters(svg.get_parameters());
             self.update_tile2datamap(svgtileid,svgtile2datamap[i]);
             cnt+=1;
@@ -361,7 +367,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 data_svg_keys,
                 data_svg_nestkeys
                 );
-        cnt+=1;
+            cnt+=1;
         return rowcnt;
 
     def parse_data(self,data_filtermenu,data_svg,data_table):
