@@ -48,6 +48,33 @@ class ddt_container_heatmap(ddt_container):
             };
         return data1_keymap;
 
+    def make_data_dendrogram(self,data_1):
+        '''make default data
+        INPUT:
+        data_1 = [{},...] of database rows
+        '''
+        data1_keys = [
+            'analysis_id','pdist_metric','linkage_method','value_units',
+            ]
+        data1_nestkeys = [
+            'analysis_id'
+            ];
+        self.add_data(data_1,data1_keys,data1_nestkeys);
+
+    def make_keymap_dendrogram(self):
+        '''make default keymap
+        INPUT:
+        OUTPUT:
+        '''
+        
+        data1_keymap = {
+            'xdata':'length',
+            'ydata':'length',
+            'serieslabel':'color',
+            'featureslabel':'name'
+            };
+        return data1_keymap;
+
     def make_container_heatmap(self,data_1,
             svgcolorcategory='blue2gold64RBG',
             svgcolordomain='min,0,max',
@@ -156,4 +183,161 @@ class ddt_container_heatmap(ddt_container):
                 "tableclass":"table  table-condensed table-hover"}
             );
         self.add_parameters(crosstable.get_parameters());
-        self.update_tile2datamap("tile3",[0]);
+        self.update_tile2datamap("tile3",[0]);        
+
+    def make_container_dendrogram(self,data_1,data_2,
+            svgcolorcategory='blue2gold64RBG',
+            svgcolordomain='min,0,max',
+            data1_keymap=None,
+            data1_nestkeys=None,
+            data1_keys=None,
+            data2_keymap=None,
+            data2_nestkeys=None,
+            data2_keys=None,
+            data1_svgparameters_I={},
+            data2_svgparameters_I={},
+            ):
+        '''make the dendrogram container object
+        INPUT:
+        OUTPUT:
+        '''
+        data_cnt=0;
+        row_cnt=1;
+
+        form = ddt_tile_html();
+        form.make_tileparameters(
+            {'tileheader':'Filter menu',
+            'tiletype':'html',
+            'tileid':"filtermenu"+str(data_cnt),
+            'rowid':"row"+str(row_cnt),
+            'colid':"col1",
+            'tileclass':"panel panel-default",
+            'rowclass':"row",
+            'colclass':"col-sm-6"});
+        form.make_parameters_form_01();
+        self.add_parameters(form.get_parameters());
+        self.update_tile2datamap("filtermenu"+str(data_cnt),[data_cnt]);
+
+        row_cnt+=1;
+        
+        data_cnt,row_cnt=self._make_container_dendrogram(data_1,
+            svgcolorcategory=svgcolorcategory,
+            svgcolordomain=svgcolordomain,
+            data1_keymap=data1_keymap,
+            data1_nestkeys=data1_nestkeys,
+            data1_keys=data1_keys,
+            data1_svgparameters_I=data1_svgparameters_I,
+            data_cnt=data_cnt,
+            row_cnt=row_cnt
+            );
+
+        data_cnt,row_cnt=self._make_container_dendrogram(data_2,
+            svgcolorcategory=svgcolorcategory,
+            svgcolordomain=svgcolordomain,
+            data1_keymap=data2_keymap,
+            data1_nestkeys=data2_nestkeys,
+            data1_keys=data2_keys,
+            data1_svgparameters_I=data2_svgparameters_I,
+            data_cnt=data_cnt,
+            row_cnt=row_cnt,
+            );
+
+    def _make_container_dendrogram(self,data_1,
+            svgcolorcategory='blue2gold64RBG',
+            svgcolordomain='min,0,max',
+            data1_keymap=None,
+            data1_nestkeys=None,
+            data1_keys=None,
+            data1_svgparameters_I={},
+            data_cnt=0,
+            row_cnt=0,
+            ):
+        '''make the heatmap container object
+        INPUT:
+        OUTPUT:
+        '''
+
+        #make the data
+        if data1_keys and data1_nestkeys:
+            self.add_data(
+                data_1,
+                data1_keys,
+                data1_nestkeys
+                );
+        else:
+            self.make_data_dendrogram(data_1);
+
+        #make dendrogram
+        if not data1_keymap:
+            data1_keymap = self.make_keymap_dendrogram();
+        dendrogram = ddt_tile();
+        dendrogram.make_tileparameters(
+            tileparameters = {
+                'tileheader':'dendrogram',
+                'tiletype':'svg',
+                'tileid':"tile"+str(row_cnt),
+                'rowid':"row"+str(row_cnt),
+                'colid':"col1",
+                'tileclass':"panel panel-default",
+                'rowclass':"row",
+                'colclass':"col-sm-6"}
+            );
+        svgparameters = {
+                "svgkeymap":[data1_keymap],
+                'svgid':"svg"+str(data_cnt),
+                #"svgtype":'verticaldendrogram2d_01',
+                #"svgmargin":{ 'top': 50, 'right': 50, 'bottom': 250, 'left': 50 },
+                #"svgwidth":350,
+                #"svgheight":500,
+                "svgtype":'radialdendrogram2d_01',
+                "svgmargin":{ 'top': 100, 'right': 100, 'bottom': 100, 'left': 100 },
+                "svgwidth":350,
+                "svgheight":350,
+                "svgduration":750,
+                "svgradius":250,
+                "svgstratifyid":'name',
+                "svgstratifyparentid":'parent',
+                #'svgcolorscale':'quantile',
+                #'svgcolorcategory':svgcolorcategory,
+                #'svgcolordomain':svgcolordomain,
+                #'svgcolordatalabel':'value',
+                }
+        svgparameters.update(data1_svgparameters_I)
+        dendrogram.make_svgparameters(
+            svgparameters = svgparameters
+            );
+        self.add_parameters(dendrogram.get_parameters());
+        self.update_tile2datamap("tile"+str(row_cnt),[data_cnt]);
+
+        #update the counter
+        row_cnt+=1;
+
+        #make table
+        crosstable = ddt_tile();
+        crosstable.make_tileparameters(
+            tileparameters = {
+            'tileheader':'Table',
+            'tiletype':'table',
+            'tileid':"tile"+str(row_cnt),
+            'rowid':"row"+str(row_cnt),
+            'colid':"col1",
+            'tileclass':"panel panel-default",
+            'rowclass':"row",
+            'colclass':"col-sm-6"}
+            );
+        crosstable.make_tableparameters(
+            tableparameters = {
+                "tabletype":'responsivetable_01',
+                "tablekeymap":[data1_keymap],
+                'tableid':"table"+str(data_cnt),
+                "tablefilters":None,
+                "tableclass":"table  table-condensed table-hover"}
+            );
+        self.add_parameters(crosstable.get_parameters());
+        self.update_tile2datamap("tile"+str(row_cnt),[data_cnt]);
+        
+        #update the counters
+        data_cnt+=1;
+        row_cnt+=1;
+
+        return data_cnt,row_cnt;

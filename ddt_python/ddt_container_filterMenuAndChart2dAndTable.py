@@ -229,7 +229,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 "svgy1axislabel":data_svg_keymap['ydata']
                 }
                     );
-            svgparameters.update(svgparameters_I);
+            svg.specificparameters.update(svgparameters_I);
             self.add_parameters(svg.get_parameters());
             self.update_tile2datamap(svgtileid,[iter]);
             self.add_data(
