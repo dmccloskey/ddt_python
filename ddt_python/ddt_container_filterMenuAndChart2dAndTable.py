@@ -378,7 +378,12 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
         #parse out the data
         if data_filtermenu is None or not data_filtermenu:
             print('no filtermenu data provided.');
-            exit(-1);
+            #exit(-1);
+            data_filtermenu = [];
+            data_svg = data_filtermenu;
+            add_svg_data = False;
+            data_table = data_filtermenu;
+            add_table_data = False;
         if data_svg is None or not data_svg:
             data_svg = data_filtermenu;
             add_svg_data = False;
