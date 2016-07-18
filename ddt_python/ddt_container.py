@@ -110,7 +110,21 @@ class ddt_container():
         OUTPUT:
         '''
         data_1 = self.make_listDict_JSONAndJSCompatible(data_1);
-        self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys});
+        data1_metadata = self.make_listDict_metaData(data_1);
+        self.data.append({"data":data_1,"datakeys":data1_keys,"datanestkeys":data1_nestkeys,"metadata":data1_metadata});
+
+    def make_listDict_metaData(self,data_1):
+        '''
+        infer data type from the first row of the list data
+        INPUT:
+        data_1 = listDict
+        OUTPUT:
+        metadata_O = dict
+        '''
+        metadata_O = {};
+        for k,v in data_1[0].items():
+            metadata_O[k] = {'datatype':str(type(v))};
+        return metadata_O;
 
     def make_listDict_JSONAndJSCompatible(self,
             data_1,
