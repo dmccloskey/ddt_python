@@ -122,8 +122,9 @@ class ddt_container():
         metadata_O = dict
         '''
         metadata_O = {};
-        for k,v in data_1[0].items():
-            metadata_O[k] = {'datatype':str(type(v))};
+        if data_1 and data_1[0]:
+            for k,v in data_1[0].items():
+                metadata_O[k] = {'datatype':str(type(v))};
         return metadata_O;
 
     def make_listDict_JSONAndJSCompatible(self,

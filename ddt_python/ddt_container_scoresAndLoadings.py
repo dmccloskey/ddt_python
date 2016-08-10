@@ -84,7 +84,7 @@ class ddt_container_scoresAndLoadings(ddt_container):
                 "svgtype":'pcaplot2d_scores_01',"svgkeymap":[data1_keymap],
                 'svgid':'svg1',
                 "svgmargin":{ 'top': 50, 'right': 150, 'bottom': 50, 'left': 50 },
-                "svgwidth":400,"svgheight":350,
+                "svgwidth":350,"svgheight":350,
                 "svgx1axislabel":data_scores_123[str(PC)][0]['axislabel'+str(PC[0])],
                 "svgy1axislabel":data_scores_123[str(PC)][0]['axislabel'+str(PC[1])]
                 }
