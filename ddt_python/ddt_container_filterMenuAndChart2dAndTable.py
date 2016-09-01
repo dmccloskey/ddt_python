@@ -109,6 +109,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
                 data_svg_nestkeys,
                 data_svg_keymap,
                 svgtype,
+                svgkeymap,
                 svgtile2datamap,
                 svgfilters,
                 svgtileheader,
@@ -182,6 +183,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             data_svg_nestkeys,
             data_svg_keymap,
             svgtype,
+            svgkeymap,
             svgtile2datamap,
             svgfilters,
             svgtileheader,
@@ -190,7 +192,10 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
         USE:
         large data set partitioned into individual data sets
         same svgtype
-        same keys, nestkeys, and keymaps'''
+        same keys, nestkeys, and keymaps
+        
+        TODO: add support for scatter line plot
+        '''
         
         rowcnt = 1;
         colcnt = 1;
@@ -208,7 +213,7 @@ class ddt_container_filterMenuAndChart2dAndTable(ddt_container):
             svg = ddt_tile();
             svg.make_tileparameters(
                 tileparameters={
-                'tileheader':svgtileheader,
+                'tileheader':svgtileheader + ' ' + str(k),
                 'tiletype':'svg',
                 'tileid':svgtileid,
                 'rowid':"row"+str(rowcnt),
