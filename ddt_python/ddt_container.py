@@ -35,7 +35,16 @@ class ddt_container():
         else: self.parameters = [];
     def set_data(self,data_I = None):
         '''Set the data object'''
-        if data_I:self.data = data_I;
+        self.data = [];
+        if data_I:
+            for d in data_I:
+                if 'data' in d.keys() and \
+                'datakeys' in d.keys() and \
+                'datanestkeys' in d.keys():
+                    self.add_data(d['data'],d['datakeys'],d['datanestkeys']);
+                else:
+                    print('data is missing entries for "data", "datakeys" or "datanestkeys".')
+        #if data_I:self.data = data_I;
         else: self.data = [];
     def set_tile2datamap(self,tile2datamap_I = None):
         '''Set the tile2datamap object'''
